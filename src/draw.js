@@ -30,18 +30,6 @@ window.onresize = (ev) => {
     update()
 }
 
-
-// document.body.onresize = ev => {
-//     // console.log(`body resized`)
-//     canvas.width = document.body.offsetWidth
-//     canvas.height = document.body.offsetHeight
-//     offset[0] = Math.round(canvas.width * .5)
-//     offset[1] = Math.round(canvas.height * .5)
-//     ctx.translate(offset[0], offset[1])
-//     requestAnimationFrame(update)
-// }
-
-
 document.body.onmousemove=(event)=>{
     point[0] = event.x - offset[0]
     point[1] = event.y - offset[1]
@@ -127,7 +115,7 @@ function update() {
         drawText('where PA = lerp2D(A, B, t)', [10, -offset[1] + 10])
         drawText('       t equals with the dot product of AM and unit vector of AB', [10, -offset[1] + 30])
         drawText('       divided by the magnitude of AB', [10, -offset[1] + 50])
-        drawText('APA displayed only if (t >= 0 && t <= 1)', [10, -offset[1] + 80])
+        drawText(`APA displayed only if (t >= 0 && t <= 1) t = ${(dot(subtract(point, A), uBA) / mBA).toFixed(5)}`, [10, -offset[1] + 80])
 
 
         // dynamic values
@@ -135,9 +123,9 @@ function update() {
         drawText(`mag APA = ${magnitude(subtract(PA, A)).toFixed(5)}`, [-offset[0] + 270, -offset[1] + 30])
         drawText(`mag MPA = ${magnitude(subtract(point, PA)).toFixed(5)}`, [-offset[0] + 270, -offset[1] + 50])
         drawText(`uBA = [ ${uBA[0].toFixed(5)}, ${uBA[1].toFixed(5)} ]`, [-offset[0] + 270, -offset[1] + 70])
-        drawText(`mag BA = ${magnitude(subtract(B, A)).toFixed(5)}`, [-offset[0] + 270, -offset[1] + 90])
-        drawText(`${String.fromCharCode(0x03b8)} = MA ${String.fromCharCode(0x2022)} uBA / mAP`, [-offset[0] + 270, -offset[1] + 110])
-        drawText(`   = ${(dot(subtract(point, A), uBA) / mPA).toFixed(5)}`, [-offset[0] + 270, -offset[1] + 130])
+        // drawText(`mag APA (MPA) = ${magnitude(subtract(PA, A)).toFixed(5)}`, [-offset[0] + 270, -offset[1] + 90])
+        drawText(`${String.fromCharCode(0x03b8)} = MA ${String.fromCharCode(0x2022)} uAPA / mAPA`, [-offset[0] + 270, -offset[1] + 110])
+        drawText(`   = ${(dot(subtract(point, A), uBA) / mBA).toFixed(5)}`, [-offset[0] + 270, -offset[1] + 130])
         drawText(`   = ${(Math.acos((dot(subtract(point, A), uBA) / mPA)) * 180. / Math.PI).toFixed(5)}`, [-offset[0] + 270, -offset[1] + 150])
     }
 }
