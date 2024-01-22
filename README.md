@@ -19,4 +19,4 @@ Using mouse pointer user user can dynamically update the following elements:
 
 ### Video descriptions on YouTube
 
-- FloatyMonkey: [Vectors]()
+- FloatyMonkey: [Vectors](https://youtu.be/Ej3ZVxljJfo?si=i8qKHQKPKVN7yH_j)
