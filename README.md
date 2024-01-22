@@ -5,7 +5,7 @@ Demonstrates 2D vector manipulations
 
 ## Usage
 
-Download (*as ZIP*) or clone this code with git client and save in the local filesystem. Navigate to the ***src*** subdirectory and simply open the ```vectors.html``` file in your browser. That's all.
+Download (*as ZIP*) or clone this code with ***git*** client and save in the local filesystem. Navigate to the ***src*** subdirectory and simply open the ```vectors.html``` file in your browser. That's all.
 
 ## Description
 
