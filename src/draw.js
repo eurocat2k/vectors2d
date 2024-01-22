@@ -126,7 +126,9 @@ function update() {
         // drawText(`mag APA (MPA) = ${magnitude(subtract(PA, A)).toFixed(5)}`, [-offset[0] + 270, -offset[1] + 90])
         drawText(`${String.fromCharCode(0x03b8)} = MA ${String.fromCharCode(0x2022)} uAPA / mAPA`, [-offset[0] + 270, -offset[1] + 110])
         drawText(`   = ${(dot(subtract(point, A), uBA) / mBA).toFixed(5)}`, [-offset[0] + 270, -offset[1] + 130])
-        drawText(`   = ${(Math.acos((dot(subtract(point, A), uBA) / mPA)) * 180. / Math.PI).toFixed(5)}`, [-offset[0] + 270, -offset[1] + 150])
+        PA = subtract(point, A)
+        let pSigns = `( ${PA[0] < 0 ? ' - ' : ' + '} ${PA[1] < 0 ? ' - ' : ' + '} )`
+        drawText(`   = ${pSigns} ${(Math.acos((dot(subtract(point, A), uBA) / mPA)) * 180. / Math.PI).toFixed(5)}`, [-offset[0] + 270, -offset[1] + 150])
     }
 }
 
