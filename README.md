@@ -1,4 +1,4 @@
-# vectors2d
+# Vectors in 2D
 Demonstrates 2D vector manipulations
 
 ![Demo](docs/img/pic.png)
