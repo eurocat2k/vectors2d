@@ -14,10 +14,32 @@ const offset = [
 ]
 
 const point=[90, 120]
-const A = [-170, -80]
-const B = [130, 150]
+const A = [-160, -30]
+const B = [110, 50]
 
 ctx.translate(offset[0], offset[1]);
+
+window.onresize = (ev) => {
+    console.log(`window resized`)
+    canvas.width = document.body.offsetWidth
+    canvas.height = document.body.offsetHeight
+    offset[0] = Math.round(canvas.width * .5)
+    offset[1] = Math.round(canvas.height * .5)
+    ctx.translate(offset[0], offset[1])
+    requestAnimationFrame(update)
+    update()
+}
+
+
+// document.body.onresize = ev => {
+//     // console.log(`body resized`)
+//     canvas.width = document.body.offsetWidth
+//     canvas.height = document.body.offsetHeight
+//     offset[0] = Math.round(canvas.width * .5)
+//     offset[1] = Math.round(canvas.height * .5)
+//     ctx.translate(offset[0], offset[1])
+//     requestAnimationFrame(update)
+// }
 
 
 document.body.onmousemove=(event)=>{
@@ -58,6 +80,8 @@ function update() {
         drawSegment(A, point, "rgb(201 42 206)")
         // draw dot AB + AP
         let BA = subtract(B, A)
+        let mBA = magnitude(BA)
+        let uBA = normalize(BA)
         let ABAP = add(BA, point)
         drawDot(ABAP, `AB + AP = [ ${ABAP[0]}, ${-ABAP[1]} ]`)
         // draw vector AB + AP
@@ -72,6 +96,7 @@ function update() {
         //  regarding X component of P, which means the point on AB segment is the dotproduct of P and normalized AB scaled the original AB segment
         let AP = subtract(point, A)
         let dotAPBA = dot(AP, normalize(BA))
+        let mPA = magnitude(AP)
         let t = dotAPBA / magnitude(BA)
         let PA = lerp2D(A, B, t)
         if (t >= 0 && t <= 1) {
@@ -98,12 +123,22 @@ function update() {
         drawText(`APA vector`, [-offset[0] + 10, -offset[1] + 160])
         drawSegment([-offset[0] + 120, -offset[1] + 16 + 150], [-offset[0] + 240, -offset[1] + 16 + 150], "orange", [], 4)
 
-        // 
+        //
         drawText('where PA = lerp2D(A, B, t)', [10, -offset[1] + 10])
-        drawText('       t equals with the dot product of AP and unit vector of AB', [10, -offset[1] + 30])
+        drawText('       t equals with the dot product of AM and unit vector of AB', [10, -offset[1] + 30])
         drawText('       divided by the magnitude of AB', [10, -offset[1] + 50])
         drawText('APA displayed only if (t >= 0 && t <= 1)', [10, -offset[1] + 80])
-        
+
+
+        // dynamic values
+        drawText(`mag AM = ${magnitude(subtract(point, A)).toFixed(5)}`, [-offset[0] + 270, -offset[1] + 10])
+        drawText(`mag APA = ${magnitude(subtract(PA, A)).toFixed(5)}`, [-offset[0] + 270, -offset[1] + 30])
+        drawText(`mag MPA = ${magnitude(subtract(point, PA)).toFixed(5)}`, [-offset[0] + 270, -offset[1] + 50])
+        drawText(`uBA = [ ${uBA[0].toFixed(5)}, ${uBA[1].toFixed(5)} ]`, [-offset[0] + 270, -offset[1] + 70])
+        drawText(`mag BA = ${magnitude(subtract(B, A)).toFixed(5)}`, [-offset[0] + 270, -offset[1] + 90])
+        drawText(`${String.fromCharCode(0x03b8)} = MA ${String.fromCharCode(0x2022)} uBA / mAP`, [-offset[0] + 270, -offset[1] + 110])
+        drawText(`   = ${(dot(subtract(point, A), uBA) / mPA).toFixed(5)}`, [-offset[0] + 270, -offset[1] + 130])
+        drawText(`   = ${(Math.acos((dot(subtract(point, A), uBA) / mPA)) * 180. / Math.PI).toFixed(5)}`, [-offset[0] + 270, -offset[1] + 150])
     }
 }
 
@@ -172,7 +207,7 @@ function drawDot(pos, label) {
 
 function drawSegment(A, B, color = "white", dash = [], lw = 1) {
     ctx.save();
-    ctx.beginPath(); 
+    ctx.beginPath();
     ctx.strokeStyle = color;
     ctx.lineWidth = lw || 1;
     if (!!dash && dash instanceof Array) {
